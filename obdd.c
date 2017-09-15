@@ -35,6 +35,12 @@ bool dictionary_has_key(struct dictionary_t* dict, char* key){
 
 
 uint32_t dictionary_add_entry(struct dictionary_t* dict, char* key){
+
+	if(str_cmp(key, TRUE_VAR) == 0 && dict->size > 0) return 0;
+	if(str_cmp(key, FALSE_VAR) == 0 && dict->size > 1) return 1;
+
+  if (dictionary_value_for_key(dict, key) != 0) return dictionary_value_for_key(dict, key);
+
 	if(dict->size < dict->max_size) {
 		char* keyaux = str_copy(key);
 		dict->entries[dict->size].key = keyaux;
@@ -52,7 +58,7 @@ uint32_t dictionary_add_entry(struct dictionary_t* dict, char* key){
 		dict = new_dict;
 		dictionary_add_entry(dict, key);
 	}
-	return dict->size;
+	return dict->entries[dict->size-1].value;
 }
 
 uint32_t dictionary_value_for_key(struct dictionary_t* dict, char *key){
@@ -153,7 +159,8 @@ obdd_node* obdd_mgr_mk_node(obdd_mgr* mgr, char* var, obdd_node* high, obdd_node
 	new_node->ref_count	= 0;
 	return new_node;
 }
-*/
+
+**/
 
 obdd*	obdd_mgr_var(obdd_mgr* mgr, char* name){
 	obdd* var_obdd	= malloc(sizeof(obdd));
@@ -311,7 +318,7 @@ obdd* obdd_apply(bool (*apply_fkt)(bool,bool), obdd *left, obdd* right){
 	return applied_obdd;
 }
 
-/** implementar en ASM
+ /**implementar en ASM
 obdd_node* obdd_node_apply(bool (*apply_fkt)(bool,bool), obdd_mgr* mgr, obdd_node* left_node, obdd_node* right_node){
 
 	uint32_t left_var_ID	=  left_node->var_ID;
@@ -421,50 +428,52 @@ void obdd_print(obdd* root){
 }
 
 void obdd_node_print(obdd_mgr* mgr, obdd_node* root, uint32_t spaces){
-	obdd_node* high = root->high_obdd;
-	obdd_node* low = root->low_obdd;
-	if(root != NULL) {
-		if(is_constant(mgr, root)){
-			printf("->");
-			if(is_true(mgr, root)){
-				printf("1\n");
-			}else{
-				printf("0\n");
-			}
-		} else {
-			if(high != NULL){
-				printf(" & \n");
-				for(uint32_t i = 0; i < spaces+1; i++){
-					printf(" ");
-				}
-				printf("%s", dictionary_key_for_value(mgr->vars_dict,high->var_ID));
-				obdd_node_print(mgr, root->high_obdd, spaces+1);
-			}
-			if(low != NULL){
-				for(uint32_t i = 0; i < spaces+1; i++){
-					printf(" ");
-				}
-				printf("|\n");
-				for(uint32_t i = 0; i < spaces+1; i++){
-					printf(" ");
-				}
-				printf("(!%s)",dictionary_key_for_value(mgr->vars_dict,low->var_ID));
-				obdd_node_print(mgr, root->low_obdd, spaces+1);
-				}
-			}
-		}
+	printf("\n");
+	for(uint32_t i = 0; i < spaces; i++){
+		printf(" ");
 	}
-
+	printf("%s", dictionary_key_for_value(mgr->vars_dict,root->var_ID));
+	if(is_constant(mgr, root->high_obdd)) {
+		if(is_true(mgr, root->high_obdd)){
+			printf("->1");
+		} else {
+			printf("->0");
+		}
+	} else {
+		printf(" &");
+		obdd_node_print(mgr, root->high_obdd, spaces+1);
+	}
+	printf("\n");
+	for(uint32_t i = 0; i < spaces; i++){
+		printf(" ");
+	}
+	printf("|\n");
+	for(uint32_t i = 0; i < spaces; i++){
+		printf(" ");
+	}
+	printf("(!%s)",dictionary_key_for_value(mgr->vars_dict,root->var_ID));
+	if(is_constant(mgr, root->low_obdd)) {
+		if(is_true(mgr, root->low_obdd)){
+			printf("->1");
+		} else {
+			printf("->0");
+		}
+	} else {
+		printf(" &");
+		obdd_node_print(mgr, root->low_obdd, spaces+1);
+	}
+}
 
 bool is_true(obdd_mgr* mgr, obdd_node* root){
-	if(mgr->true_obdd->root_obdd->var_ID == root->var_ID) {
+	if(dictionary_key_for_value(mgr->vars_dict,mgr->true_obdd->root_obdd->var_ID) == dictionary_key_for_value(mgr->vars_dict,root->var_ID)) {
 		return true;
 	} else {
 		return false;
 	}
 }
 bool is_constant(obdd_mgr* mgr, obdd_node* root){
-		if(mgr->true_obdd->root_obdd->var_ID == root->var_ID || mgr->false_obdd->root_obdd->var_ID == root->var_ID) {
+		if(dictionary_key_for_value(mgr->vars_dict, mgr->true_obdd->root_obdd->var_ID) == dictionary_key_for_value(mgr->vars_dict,root->var_ID)
+		|| dictionary_key_for_value(mgr->vars_dict, mgr->false_obdd->root_obdd->var_ID) == dictionary_key_for_value(mgr->vars_dict,root->var_ID)) {
 			return true;
 		} else {
 			return false;

@@ -8,8 +8,8 @@ extern obdd_apply_and_fkt
 extern obdd_apply_or_fkt
 extern dictionary_key_for_value
 
-TRUE_VAR DB "1", 0
-FALSE_VAR DB "0", 0
+TRUE_VAR2 DB "1", 0
+FALSE_VAR2 DB "0", 0
 
 %define OFFSET_mgrID 0           ;manager
 %define OFFSET_mgrgnodeID 4
@@ -201,7 +201,7 @@ mov r9d, eax ;r9 is right constant
 push r9
 push r8
 and r8, r9
-jne .saltear
+je .saltear
 
 mov rdi, r13
 mov rsi, r14
@@ -219,7 +219,7 @@ cmp eax, 1
 jne .else
 
 mov rdi, r13
-mov rsi, TRUE_VAR
+mov rsi, TRUE_VAR2
 xor rdx, rdx
 xor rcx, rcx
 call obdd_mgr_mk_node
@@ -227,7 +227,7 @@ jmp .endingshort
 
 .else:
 mov rdi, r13
-mov rsi, FALSE_VAR
+mov rsi, FALSE_VAR2
 xor rdx, rdx
 xor rcx, rcx
 call obdd_mgr_mk_node
@@ -466,12 +466,12 @@ push rbp
 mov rbp, rsp
 
 .ciclo:
-cmp rdi, 0
-je .comparo
-cmp rsi, 0
-je .devuelveN
 mov cl, [rdi]
 mov dl, [rsi]
+cmp cl, 0
+je .comparo
+cmp dl, 0
+je .devuelveN
 cmp cl, dl
 
 je .seguir
@@ -484,7 +484,7 @@ inc rsi
 jmp .ciclo
 
 .comparo:
-cmp rsi, 0
+cmp dl, 0
 je .devuelve0
 jne .devuelveP
 
