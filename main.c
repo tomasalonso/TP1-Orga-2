@@ -9,6 +9,10 @@ char *formulasFile  =  "formulas.txt";
 
 //TODO: implementar
 void run_tests(){
+obdd* res = obdd_apply_or(x1, x2);
+obdd_print(res);
+printf("eq1 == eq2 sat? : %s \n", is_sat(res->mgr, res->root_obdd) ? "yes" : "no");
+printf("eq1 == eq2 taut? : %s \n", is_tautology(res->mgr, res->root_obdd) ? "yes" : "no");
 }
 
 int main (void){
@@ -21,7 +25,6 @@ int main (void){
 	fflush(stdout);
 	close( pFile );
 	dup2(save_out, 1);
-	return 0;    
+	return 0;
+
 }
-
-

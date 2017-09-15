@@ -246,8 +246,8 @@ jne .if2
 je .prend2
 
 .if2:
-mov r8, [r14 + OFFSET_nodevarID]
-mov r9, [r15 + OFFSET_nodevarID]
+mov r8d, [r14 + OFFSET_nodevarID]
+mov r9d, [r15 + OFFSET_nodevarID]
 cmp r8, r9
 je .prend3
 jl .prend2

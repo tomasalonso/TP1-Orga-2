@@ -26,7 +26,7 @@ int main() {
 
 	if (-1 == dup2(err, 2)) { perror("cannot redirect stderr"); return 255; }
 
-	
+
 	int pFile;
 
 	remove(archivoCasoMgr);
@@ -83,7 +83,7 @@ void casoObddChico() {
 	obdd* x1_obdd		= obdd_mgr_var(new_mgr, "x1");
 	obdd* x2_obdd		= obdd_mgr_var(new_mgr, "x2");
 	obdd* x3_obdd		= obdd_mgr_var(new_mgr, "x3");
-    	
+
 	obdd* x2_or_x3_obdd	= obdd_apply_or(x2_obdd, x3_obdd);
 	obdd* not_x2_or_x3_obdd	= obdd_apply_not(x2_or_x3_obdd);
 	obdd* eq1_obdd		= obdd_apply_and(x1_obdd, not_x2_or_x3_obdd);
@@ -98,7 +98,7 @@ void casoObddChico() {
 	obdd_print(eq2_obdd);
 
 	obdd* eq1_eq_eq2_obdd	= obdd_apply_equals(eq1_obdd, eq2_obdd);
-	
+
 	obdd_print(eq1_eq_eq2_obdd);
 
 	printf("eq1 == eq2 sat? : %s \n", is_sat(new_mgr, eq1_eq_eq2_obdd->root_obdd) ? "yes" : "no");
@@ -131,7 +131,7 @@ void casoObddChico() {
 void casoObddGrande() {
 	printf( "Test obdd grande\n");
 	obdd_mgr* new_mgr	= obdd_mgr_create();
-	int vars_size		= 10;	
+	int vars_size		= 10;
 	char *var_name 		= malloc(4 * sizeof(char));
 	obdd** obdd_vars_list	= malloc(vars_size * sizeof(obdd*));
 	obdd** obdd_func_list	= malloc(vars_size * sizeof(obdd*));
@@ -139,7 +139,7 @@ void casoObddGrande() {
 
 	int i;
 	for(i = 0; i < vars_size; i++){
-		sprintf(var_name, "x%02d", (i + 1));	
+		sprintf(var_name, "x%02d", (i + 1));
 		printf("%s.", var_name);
 		obdd_vars_list[i]	= obdd_mgr_var(new_mgr, var_name);
 		if(i == 0){
@@ -156,9 +156,9 @@ void casoObddGrande() {
 
 	for(i = 0; i < vars_size; i++){
 		obdd_destroy(obdd_vars_list[i]);
-		obdd_destroy(obdd_func_list[i]);		
+		obdd_destroy(obdd_func_list[i]);
 	}
-	
+
 
 	obdd_mgr_destroy(new_mgr);
 	free(var_name);

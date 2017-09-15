@@ -318,7 +318,7 @@ obdd* obdd_apply(bool (*apply_fkt)(bool,bool), obdd *left, obdd* right){
 	return applied_obdd;
 }
 
- /**implementar en ASM
+ /** implementar en ASM
 obdd_node* obdd_node_apply(bool (*apply_fkt)(bool,bool), obdd_mgr* mgr, obdd_node* left_node, obdd_node* right_node){
 
 	uint32_t left_var_ID	=  left_node->var_ID;

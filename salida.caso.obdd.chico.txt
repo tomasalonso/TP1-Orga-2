@@ -26,64 +26,19 @@ x1 &
 [OBDD]
 Mgr_ID:4
 Value:
-x1 &
- x2 &
-  x1 &
-   x2->1
-   |
-   (!x2) &
-    x3->1
-    |
-    (!x3)->0
-  |
-  (!x1)->1
- |
- (!x2) &
-  x3 &
-   x1 &
-    x2->1
-    |
-    (!x2) &
-     x3->1
-     |
-     (!x3)->0
-   |
-   (!x1)->1
-  |
-  (!x3) &
-   x1 &
-    x2->0
-    |
-    (!x2) &
-     x3->0
-     |
-     (!x3)->1
-   |
-   (!x1)->0
+x1->1
 |
-(!x1) &
- x1 &
-  x2->1
-  |
-  (!x2) &
-   x3->1
-   |
-   (!x3)->0
- |
- (!x1)->1
-eq1 == eq2 sat? : no 
+(!x1)->1
+eq1 == eq2 sat? : yes 
 eq1 == eq2 taut? : yes 
 [OBDD]
 Mgr_ID:4
 Value:
-x2 &
- x2->0
- |
- (!x2)->1
+x2->0
 |
 (!x2)->0
 x2 && !x2 sat? : no 
-x2 && !x2 taut? : yes 
+x2 && !x2 taut? : no 
 [OBDD MANAGER]
 Mgr: 4
 Mgr.Dict:
