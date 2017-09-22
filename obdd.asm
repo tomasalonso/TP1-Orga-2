@@ -359,7 +359,7 @@ call is_tautology
 mov r14d, eax
 mov edi, ebx
 mov esi, r14d
-call obdd_apply_or_fkt
+call obdd_apply_and_fkt
 mov eax, eax
 
 .fin:
@@ -404,7 +404,7 @@ call is_sat
 mov r14d, eax
 mov edi, ebx
 mov esi, r14d
-call obdd_apply_and_fkt
+call obdd_apply_or_fkt
 mov eax, eax
 
 .fin2:
