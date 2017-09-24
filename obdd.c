@@ -410,14 +410,24 @@ obdd_node* obdd_node_restrict(obdd_mgr* mgr, obdd_node* root, char* var, uint32_
 }
 
 obdd* obdd_exists(obdd* root, char* var){
-	obdd* res = obdd_apply_or(obdd_restrict(root, var, true),
-														obdd_restrict(root, var, false));
+
+	obdd* izq = obdd_restrict(root, var, true);
+	obdd* der = obdd_restrict(root, var, false);
+	obdd* res = obdd_apply_or(izq,der);
+
+	obdd_destroy(izq);
+	obdd_destroy(der);
 	return res;
 }
 
 obdd* obdd_forall(obdd* root, char* var){
-	obdd* res = obdd_apply_and(obdd_restrict(root, var, true),
-														obdd_restrict(root, var, false));
+
+	obdd* izq = obdd_restrict(root, var, true);
+	obdd* der = obdd_restrict(root, var, false);
+	obdd* res = obdd_apply_and(izq,der);
+
+	obdd_destroy(izq);
+	obdd_destroy(der);
 	return res;
 }
 

@@ -1,5 +1,5 @@
 
--Parte 1:
+-Parte 1: x1 || x2 
 [OBDD]
 Mgr_ID:1
 Value:
@@ -12,7 +12,7 @@ x1->1
 x1 || x2 sat? : yes 
 x1 || x2 taut? : no 
 
--Parte 2:
+-Parte 2: x1 && x2 
 [OBDD]
 Mgr_ID:1
 Value:
@@ -25,20 +25,17 @@ x1 &
 x1 && x2  sat? : yes 
 x1 && x2  taut? : no 
 
--Parte 3:
+-Parte 3: x1 && !x2 
 [OBDD]
 Mgr_ID:1
 Value:
-x1 &
- x2->0
- |
- (!x2)->1
+x1->0
 |
 (!x1)->0
-x1 && !x2 sat? : yes 
-x1 && !x2 taut? : no 
+x1 && !x1 sat? : no 
+x1 && !x1 taut? : no 
 
--Parte 4:
+-Parte 4: (x1 && x2) -> x1  
 [OBDD]
 Mgr_ID:1
 Value:
@@ -48,12 +45,12 @@ x1->1
 (x1 && x2) -> x1 sat? : yes 
 (x1 && x2) -> x1 taut? : yes 
 
--Parte 5:
+-Parte 5: Exists x2.(x2 =(x1 && !x1)) 
 [OBDD]
 Mgr_ID:1
 Value:
-x1->0
+x1->1
 |
 (!x1)->1
 Exists x2.(x2 =(x1 && !x1)) sat? : yes 
-Exists x2.(x2 =(x1 && !x1)) taut? : no 
+Exists x2.(x2 =(x1 && !x1)) taut? : yes 
